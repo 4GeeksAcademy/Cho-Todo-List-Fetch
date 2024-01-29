@@ -87,68 +87,75 @@ const Home = () => {
   };
 
   return (
-    <div className="container mx-auto p-2 mt-3">
-      <h1 className="text-center">My To-Do list</h1>
-      <div className="d-flex align-items-center justify-content-center username">
-        <input
-          type="text"
-          placeholder="Username"
-          className="myInputs flex-grow-1"
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-        ></input>
-        <button
-          type="button"
-          className="btn d-flex align-items-center justify-content-center"
-          onClick={handleCreateUser}
-        >
-          Create
-        </button>
-        <button
-          type="button"
-          className="btn d-flex align-items-center justify-content-center"
-          onClick={handleUpdateTodo}
-        >
-          Update
-        </button>
+    <>
+      <div className="container mx-auto p-2 mt-3">
+        <h1 className="text-center">My To-Do list</h1>
+        <p className="text-center">
+          {todos.length === 0
+            ? "Search or create a user"
+            : `${todos.length} To-Do's left`}
+        </p>
+        <div className="d-flex align-items-center justify-content-center username mt-5">
+          <input
+            type="text"
+            placeholder="Username"
+            className="myInputs flex-grow-1"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          ></input>
+          <button
+            type="button"
+            className="btn d-flex align-items-center justify-content-center"
+            onClick={handleCreateUser}
+          >
+            Create
+          </button>
+          <button
+            type="button"
+            className="btn d-flex align-items-center justify-content-center"
+            onClick={handleUpdateTodo}
+          >
+            Update
+          </button>
+        </div>
+        <div className="d-flex align-items-center justify-content-center">
+          <input
+            type="text"
+            className="myInputs flex-grow-1"
+            placeholder="Add your to-do task here.."
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleAddTodo();
+              }
+            }}
+          ></input>
+          <button
+            className="btn d-flex align-items-center justify-content-center"
+            type="button"
+            onClick={handleAddTodo}
+          >
+            Add new
+          </button>
+        </div>
+        <ul className="myList">
+          {Array.isArray(todos) &&
+            todos.map((todo, index) => (
+              <li key={index}>
+                <div className="d-flex justify-content-between align-items-center mx-2">
+                  {todo.label}
+                  <i
+                    className="fa-solid fa-delete-left"
+                    style={{ color: "#B197FC" }}
+                    onClick={() => handleDeleteTodo(index)}
+                  ></i>
+                </div>
+              </li>
+            ))}
+        </ul>
       </div>
-      <div className="d-flex align-items-center justify-content-center">
-        <input
-          type="text"
-          className="myInputs flex-grow-1"
-          placeholder="Add your to-do task here.."
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleAddTodo();
-            }
-          }}
-        ></input>
-        <button
-          className="btn d-flex align-items-center justify-content-center"
-          type="button"
-          onClick={handleAddTodo}
-        >
-          Add new
-        </button>
-      </div>
-      <ul className="myList">
-        {Array.isArray(todos) &&
-          todos.map((todo, index) => (
-            <li key={index}>
-              <div className="d-flex justify-content-between align-items-center mx-2">
-                {todo.label}
-                <i
-                  className="fa-solid fa-delete-left"
-                  style={{ color: "#B197FC" }}
-                  onClick={() => handleDeleteTodo(index)}
-                ></i>
-              </div>
-            </li>
-          ))}
-      </ul>
-    </div>
+    </>
   );
 };
 
